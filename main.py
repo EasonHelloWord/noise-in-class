@@ -6,7 +6,7 @@ import time
 import sys
 import os
 import winsound
-ver = "v1.2.1"
+ver = "v1.2.2"
 # 资源文件目录访问
 
 
@@ -15,7 +15,7 @@ def source_path(relative_path):
     if getattr(sys, 'frozen', False):
         base_path = sys._MEIPASS
     else:
-        base_path = os.path.abspath("./res")
+        base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
 
@@ -35,7 +35,7 @@ root = tk.Tk()
 root.title("你有点大声awa")
 root.attributes('-topmost', True)  # 将窗口置顶
 root.geometry("255x210")  # 设置窗口宽度为400像素，高度为400像素
-root.iconbitmap("./下载.ico")
+root.iconbitmap("./res/下载.ico")
 # 创建滑块用于设置分贝阈值
 db_threshold_label = tk.Label(root, text="分贝阈值", font=("", 16))  # 修改标签字体
 db_threshold_label.pack()
@@ -127,7 +127,7 @@ def play_alarm():
         time.sleep(3)
         if warning_shown and time.time()-warning_start > 3:
             warning_start = time.time()
-            winsound.PlaySound("保持安静.wav", winsound.SND_FILENAME)
+            winsound.PlaySound("./res/保持安静.wav", winsound.SND_FILENAME)
 
 
 # 设置分贝阈值
