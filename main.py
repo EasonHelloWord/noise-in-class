@@ -27,7 +27,7 @@ mic_device = None  # 根据需要设置麦克风设备
 sample_rate = 44100  # 根据需要调整采样率
 
 # 分贝阈值和警报开关
-db_threshold = -40  # 初始阈值
+db_threshold = -25  # 初始阈值
 alarm_enabled = False  # 警报开关
 
 # 创建图形用户界面
