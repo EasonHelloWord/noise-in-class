@@ -81,7 +81,7 @@ def calculate_db(indata):
     return db
 
 # 麦克风录音回调函数
-def callback(indata, frames, time, status):
+def callback(indata, frames, time1, status):
     global warning_shown
     if status:
         print(status, file=sys.stderr)
@@ -95,7 +95,9 @@ def callback(indata, frames, time, status):
         start_warning(warning_label)
         warning_shown = True
         if alarm_enabled:
-            Thread(target=play_alarm).start()
+            global warning_start
+            if warning_shown and time.time()-warning_start > 2:
+                    Thread(target=play_alarm).start()
     elif db < db_threshold:
         warning_shown = False
         hide_warning(warning_label)
@@ -123,11 +125,12 @@ def start_warning(label):
 # 播放警报声音
 def play_alarm():
     global warning_start
-    if warning_shown and time.time()-warning_start > 3:
-        time.sleep(3)
-        if warning_shown and time.time()-warning_start > 3:
-            warning_start = time.time()
-            winsound.PlaySound("./res/保持安静.wav", winsound.SND_FILENAME)
+    warning_start = time.time()
+    time.sleep(1)
+    warning_start = time.time()
+    time.sleep(1)
+    if warning_shown:
+        winsound.PlaySound("./res/保持安静.wav", winsound.SND_FILENAME)
 
 
 # 设置分贝阈值
