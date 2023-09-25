@@ -34,10 +34,10 @@ alarm_enabled = False  # 警报开关
 root = tk.Tk()
 root.title("你有点大声awa")
 root.attributes('-topmost', True)  # 将窗口置顶
-root.geometry("255x210")  # 设置窗口宽度为400像素，高度为400像素
+root.geometry("200x165")  # 设置窗口宽度为400像素，高度为400像素
 root.iconbitmap("./res/下载.ico")
 # 创建滑块用于设置分贝阈值
-db_threshold_label = tk.Label(root, text="分贝阈值", font=("", 16))  # 修改标签字体
+db_threshold_label = tk.Label(root, text="分贝阈值", font=("", 9))  # 修改标签字体
 db_threshold_label.pack()
 
 # 修改滑块的长度和字体
@@ -47,10 +47,10 @@ db_threshold_slider.set(db_threshold)
 db_threshold_slider.config(font=("", 12))
 db_threshold_slider.pack()
 # 创建分贝显示标签
-db_label = tk.Label(root, text="分贝：0", font=("", 18))  # 修改标签字体
+db_label = tk.Label(root, text="分贝：0", font=("", 12))  # 修改标签字体
 db_label.pack()
 # 创建个人显示标签
-me_label = tk.Label(root, text=f"制作：Eason_J  {ver}", font=("", 10))  # 修改标签字体
+me_label = tk.Label(root, text=f"制作：Eason_J  {ver}", font=("", 9))  # 修改标签字体
 me_label.pack()
 # 创建一个主框架并使用pack布局
 main_frame = tk.Frame(root)
@@ -62,11 +62,11 @@ def toggle_alarm():
 
 
 alarm_checkbox = tk.Checkbutton(
-    main_frame, text="启用警报", command=toggle_alarm, font=("", 14))  # 修改复选框字体
+    main_frame, text="启用警报", command=toggle_alarm, font=("", 10))  # 修改复选框字体
 alarm_checkbox.pack()
 # 创建警告显示标签
 warning_label = tk.Label(root, text="你有点大声", bg="red",
-                         fg="white", font=("", 20), width=20, height=2)
+                         fg="white", font=("", 15), width=20, height=2)
 warning_label.pack(side="bottom", fill="x")  # 底部对齐，水平平铺
 warning_label.pack_forget()
 # 在全局范围内创建一个变量，用于跟踪警告消息的状态
