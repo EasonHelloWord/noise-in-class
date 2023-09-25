@@ -44,7 +44,7 @@ db_threshold_label.pack()
 db_threshold_slider = tk.Scale(root, from_=-90, to=0, orient="horizontal",
                                command=lambda x: set_threshold(int(x)), length=300)
 db_threshold_slider.set(db_threshold)
-db_threshold_slider.config(font=("", 12))
+db_threshold_slider.config(font=("", 9))
 db_threshold_slider.pack()
 # 创建分贝显示标签
 db_label = tk.Label(root, text="分贝：0", font=("", 12))  # 修改标签字体
