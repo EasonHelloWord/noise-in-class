@@ -34,7 +34,7 @@ alarm_enabled = False  # 警报开关
 root = tk.Tk()
 root.title("你有点大声awa")
 root.attributes('-topmost', True)  # 将窗口置顶
-root.geometry("200x165")  # 设置窗口宽度为400像素，高度为400像素
+root.geometry("180x165")  # 设置窗口宽度为400像素，高度为400像素
 root.iconbitmap("./res/下载.ico")
 # 创建滑块用于设置分贝阈值
 db_threshold_label = tk.Label(root, text="分贝阈值", font=("", 9))  # 修改标签字体
@@ -86,7 +86,7 @@ def callback(indata, frames, time1, status):
     if status:
         print(status, file=sys.stderr)
     db = calculate_db(indata)
-    db_label.config(text=f"分贝: {db:.2f} dB")
+    db_label.config(text=f"分贝: {db:.2f} dB", font=("", 12))
 
     if db >= db_threshold:
         global db_down_count
@@ -130,7 +130,7 @@ def play_alarm():
     warning_start = time.time()
     time.sleep(1)
     if warning_shown:
-        winsound.PlaySound("./res/保持安静.wav", winsound.SND_FILENAME)
+        winsound.PlaySound("./res/mic/保持安静.wav", winsound.SND_FILENAME)
 
 
 # 设置分贝阈值
