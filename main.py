@@ -6,7 +6,7 @@ import time
 import sys
 import os
 import winsound
-ver = "v1.2.4"
+ver = "V1.2.4"
 # 资源文件目录访问
 
 
