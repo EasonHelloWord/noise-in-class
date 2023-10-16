@@ -8,6 +8,8 @@ changelog.*
 
 # Distribution / packaging
 .Python
+*.exe
+*.download
 build/
 develop-eggs/
 dist/
