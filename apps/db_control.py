@@ -5,10 +5,11 @@ from threading import Thread
 import time
 import sys
 import winsound
-
+from apps import tools
 
 class MicMonitor:
     def __init__(self,ver):
+        self.count = tools.Count()
         self.db_threshold = -25
         self.alarm_enabled = False
         self.warning_shown = True
@@ -50,10 +51,12 @@ class MicMonitor:
                                     fg="white", font=("", 15), width=20, height=2)
         self.warning_label.pack(side="bottom", fill="x")
         self.warning_label.pack_forget()
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     def calculate_db(self, indata):
         rms = np.sqrt(np.mean(indata**2))
         db = 20 * np.log10(rms)
+        self.count.reserve_db(db)
         return db
 
     def callback(self, indata, frames, time1, status):
@@ -90,6 +93,7 @@ class MicMonitor:
         self.warning_start = time.time()
         time.sleep(1)
         if self.warning_shown and self.alarm_enabled:
+            self.count.reserve_alarm()
             winsound.PlaySound("./res/mic/保持安静.wav", winsound.SND_FILENAME)
 
     def set_threshold(self, value):
@@ -102,6 +106,13 @@ class MicMonitor:
         with sd.InputStream(callback=self.callback, channels=1, samplerate=44100, device=None):
             self.root.mainloop()
 
+    def on_closing(self):
+        # 示例：停止音频流
+        Thread(target=self.count.plot_graph).start()
+        
+        sd.stop()
+        # 销毁窗口
+        self.root.destroy()
 if __name__ == "__main__":
     monitor = MicMonitor('V1.2.4')
     monitor.run()
