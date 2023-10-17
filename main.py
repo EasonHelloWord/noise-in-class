@@ -1,7 +1,7 @@
 import os
 import sys
 from threading import Thread
-from apps import update,MicMonitor,db_control
+from apps import update,db_control
 if __name__ == "__main__":
     current_version="V2.0.0"
     # 资源文件目录访问

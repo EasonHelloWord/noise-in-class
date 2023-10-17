@@ -89,7 +89,7 @@ class MicMonitor:
         time.sleep(1)
         self.warning_start = time.time()
         time.sleep(1)
-        if self.warning_shown:
+        if self.warning_shown and self.alarm_enabled:
             winsound.PlaySound("./res/mic/保持安静.wav", winsound.SND_FILENAME)
 
     def set_threshold(self, value):
