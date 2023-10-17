@@ -1,7 +1,6 @@
 import datetime
 import random
 import matplotlib.pyplot as plt
-from PyQt5.QtGui import QIcon
 
 class Count:
     def __init__(self):

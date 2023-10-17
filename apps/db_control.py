@@ -5,7 +5,7 @@ from threading import Thread
 import time
 import sys
 import winsound
-from apps import tools
+from . import tools
 
 class MicMonitor:
     def __init__(self,ver):

@@ -98,15 +98,7 @@ def check_update(current_version):
     update_info = check_for_updates(current_version,"https://gitee.com/api/v5/repos/EasonJan/noise-in-class/releases/latest")
     if update_info == False:
         update_info = check_for_updates(current_version,"https://api.github.com/repos/EasonHelloWord/noise-in-class/releases/latest")
-    elif update_info != True:
-        root = tk.Tk()
-        root.title("软件更新")
-        root.geometry("400x400")
 
-        progress_bar = ttk.Progressbar(root, orient='horizontal', length=380, mode='determinate')
-        progress_bar.pack(pady=10)
-        download_latest_version(update_info[1])
-        root.mainloop()
 
 
 if __name__ == "__main__":
