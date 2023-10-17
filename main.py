@@ -1,6 +1,7 @@
 import os
+import sys
 from threading import Thread
-from apps import update,MicMonitor
+from apps import update,MicMonitor,db_control
 if __name__ == "__main__":
     current_version="V2.0.0"
     # 资源文件目录访问
@@ -19,4 +20,4 @@ if __name__ == "__main__":
     cd = source_path('')
     os.chdir(cd)
     Thread(target=update.check_update,args=(current_version,)).start()
-    MicMonitor.MicMonitor(current_version).run()
+    db_control.MicMonitor(current_version).run()

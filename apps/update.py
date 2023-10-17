@@ -7,8 +7,7 @@ from tkinter import scrolledtext
 from tkinter.messagebox import showinfo
 
 
-def check_for_updates(current_version):
-    url = "https://gitee.com/api/v5/repos/EasonJan/noise-in-class/releases/latest"
+def check_for_updates(current_version,url):
     try:
         response = requests.get(url, timeout=20)
         if response.status_code == 200:
@@ -49,10 +48,13 @@ def check_for_updates(current_version):
 
             else:
                 print("当前已是最新版本。")
+                return True
         else:
             print("无法获取最新版本信息。")
+            return False
     except requests.RequestException as e:
         print(f"发生错误：{e}")
+        return False
 
 
 def download_latest_version(url):
@@ -93,17 +95,18 @@ def download_latest_version(url):
 
 def check_update(current_version):
     current_version = current_version
-    update_info = check_for_updates(current_version)
-    if update_info is not None:
-        if update_info[0]:
-            root = tk.Tk()
-            root.title("软件更新")
-            root.geometry("400x400")
+    update_info = check_for_updates(current_version,"https://gitee.com/api/v5/repos/EasonJan/noise-in-class/releases/latest")
+    if update_info == False:
+        update_info = check_for_updates(current_version,"https://api.github.com/repos/EasonHelloWord/noise-in-class/releases/latest")
+    if update_info == True:
+        root = tk.Tk()
+        root.title("软件更新")
+        root.geometry("400x400")
 
-            progress_bar = ttk.Progressbar(root, orient='horizontal', length=380, mode='determinate')
-            progress_bar.pack(pady=10)
-            download_latest_version(update_info[1])
-            root.mainloop()
+        progress_bar = ttk.Progressbar(root, orient='horizontal', length=380, mode='determinate')
+        progress_bar.pack(pady=10)
+        download_latest_version(update_info[1])
+        root.mainloop()
 
 
 if __name__ == "__main__":
