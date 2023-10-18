@@ -1,12 +1,23 @@
 import datetime
-import random
+import os
+import sys
 import matplotlib.pyplot as plt
+
+
 
 class Count:
     def __init__(self):
         self.db = {}
         self.alarm = []
-
+        # 获取文件所在的目录
+        if getattr(sys, 'frozen', False):
+            base_path = os.path.dirname(sys.executable)
+        else:
+            base_path = os.path.abspath(".")
+        # 拼接保存路径
+        filename = os.path.join(base_path, "reports")
+        if not os.path.exists(filename):  # 如果目录不存在则创建
+            os.mkdir(filename)
     def reserve_db(self, db):
         current_time = self.get_time()
         if current_time not in self.db:
@@ -46,13 +57,20 @@ class Count:
         plt.xlabel('时间')
         plt.ylabel('分贝')
         plt.title('看看今天的统计数据叭')
-        current_time = datetime.datetime.now().strftime("%H.%M.%S")
-        plt.savefig(f'{current_time}.png')
+        current_time = datetime.datetime.now().strftime("%Y年%m月%d日%H时%M分")
+        if getattr(sys, 'frozen', False):
+            base_path = os.path.dirname(sys.executable)
+        else:
+            base_path = os.path.abspath(".")
+        # 拼接保存路径
+        filename = os.path.join(base_path, "reports")
+        save_path = os.path.join(filename, f"{current_time}.png")
+        plt.savefig(save_path)
         plt.show()
 
 
 if __name__ == "__main__":
-    import time
+    import time,random
     counter = Count()
     for x in range(50):
         counter.reserve_db(random.uniform(-70, 0))

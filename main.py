@@ -19,5 +19,5 @@ if __name__ == "__main__":
     # 修改当前工作目录，使得资源文件可以被正确访问
     cd = source_path('')
     os.chdir(cd)
-    Thread(target=update.check_update,args=(current_version,)).start()
+    # Thread(target=update.check_update,args=(current_version,)).start()
     db_control.MicMonitor(current_version).run()

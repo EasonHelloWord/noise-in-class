@@ -51,7 +51,6 @@ class MicMonitor:
                                     fg="white", font=("", 15), width=20, height=2)
         self.warning_label.pack(side="bottom", fill="x")
         self.warning_label.pack_forget()
-        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     def calculate_db(self, indata):
         rms = np.sqrt(np.mean(indata**2))
@@ -105,14 +104,9 @@ class MicMonitor:
     def run(self):
         with sd.InputStream(callback=self.callback, channels=1, samplerate=44100, device=None):
             self.root.mainloop()
+        self.count.plot_graph()
 
-    def on_closing(self):
-        # 示例：停止音频流
-        Thread(target=self.count.plot_graph).start()
-        
-        sd.stop()
-        # 销毁窗口
-        self.root.destroy()
 if __name__ == "__main__":
     monitor = MicMonitor('V1.2.4')
     monitor.run()
+    monitor.count()
