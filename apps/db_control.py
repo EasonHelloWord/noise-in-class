@@ -15,6 +15,7 @@ class MicMonitor:
         self.warning_shown = True
         self.db_down_count = 0
         self.warning_start = 0
+        self.current_indata = None
         self.ver = ver
         self.root = tk.Tk()
         self.root.title("你有点大声awa")
@@ -59,6 +60,7 @@ class MicMonitor:
         return db
 
     def callback(self, indata, frames, time1, status):
+        self.current_indata = indata
         if status:
             print(status, file=sys.stderr)
         db = self.calculate_db(indata)
@@ -87,11 +89,16 @@ class MicMonitor:
         self.warning_shown = True
 
     def play_alarm(self):
-        self.warning_start = time.time()
-        time.sleep(1)
-        self.warning_start = time.time()
-        time.sleep(1)
-        if self.warning_shown and self.alarm_enabled:
+        self.warning_start = time.time()+1
+        yes = 0
+        no = 0
+        for x in range(30):
+            db = self.calculate_db(self.current_indata)
+            if db >= self.db_threshold:
+                yes += 1
+            else:no += 1
+            time.sleep(0.1)
+        if self.alarm_enabled and yes/(yes+no) >= 0.3:
             self.count.reserve_alarm()
             winsound.PlaySound("./res/mic/保持安静.wav", winsound.SND_FILENAME)
 
