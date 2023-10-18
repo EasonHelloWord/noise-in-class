@@ -2,11 +2,12 @@ import datetime
 import os
 import sys
 import matplotlib.pyplot as plt
-
+from PyQt5 import QtGui
 
 
 class Count:
     def __init__(self):
+        self.averages = {}
         self.db = {}
         self.alarm = []
         # 获取文件所在的目录
@@ -24,7 +25,9 @@ class Count:
             self.db[current_time] = [db]
         else:
             self.db[current_time].append(db)
-
+        if datetime.datetime.now().strftime("%S") == "0":
+            self.calculate_averages()
+            self.averages = {}
     def reserve_alarm(self):
         self.alarm.append(self.get_time())
 
@@ -33,10 +36,9 @@ class Count:
         return current_time.strftime("%H:%M")
 
     def calculate_averages(self):
-        averages = {}
         for key in self.db:
-            averages[key] = sum(self.db[key]) / len(self.db[key])
-        return averages
+            self.averages[key] = sum(self.db[key]) / len(self.db[key])
+        return self.averages
 
     def plot_graph(self):
         data = self.calculate_averages()
@@ -45,7 +47,9 @@ class Count:
         x_data = list(range(len(data)))
         y_data = list(data.values())
         x_labels = list(data.keys())
-
+        fig = plt.figure()
+        fig.canvas.manager.set_window_title('好看的统计信息')
+        fig.canvas.manager.window.setWindowIcon(QtGui.QIcon("./res/function.ico"))
         plt.plot(x_data, y_data)
 
         for time in self.alarm:
