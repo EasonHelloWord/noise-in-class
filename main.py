@@ -3,7 +3,7 @@ import sys
 from threading import Thread
 from apps import update,db_control
 if __name__ == "__main__":
-    current_version="V2.1.0"
+    current_version="V2.1.1"
     # 资源文件目录访问
 
 

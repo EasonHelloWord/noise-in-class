@@ -82,7 +82,7 @@ def download_latest_version(url):
             base_path = os.path.abspath(".")
         # 拼接保存路径
         for data in response.iter_content(block_size):
-            speed = len(data) / (time.time() - start_time) if time.time() - start_time > 0 else 0
+            speed = (progress / 1024) / (time.time() - start_time) if time.time() - start_time > 0 else 0
             progress += len(data)
             with open(download_file_name, 'ab') as file:
                 file.write(data)
