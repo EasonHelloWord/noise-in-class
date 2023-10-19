@@ -89,7 +89,7 @@ class MicMonitor:
         self.warning_shown = True
 
     def play_alarm(self):
-        self.warning_start = time.time()+1
+        self.warning_start = time.time()+2
         yes = 0
         no = 0
         for x in range(30):

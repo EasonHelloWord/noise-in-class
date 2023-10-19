@@ -47,15 +47,28 @@ class Count:
         x_data = list(range(len(data)))
         y_data = list(data.values())
         x_labels = list(data.keys())
+
+        save_x = 20
+        new_list = x_labels
+        
+
+
         fig = plt.figure()
         fig.canvas.manager.set_window_title('好看的统计信息')
         fig.canvas.manager.window.setWindowIcon(QtGui.QIcon("./res/function.ico"))
-        plt.plot(x_data, y_data)
 
         for time in self.alarm:
             if time in x_labels:
                 index = x_labels.index(time)
                 plt.scatter(index, data[time], color='red')  # 标记红色
+        if len(x_labels) > save_x:
+            new_list = [''] * len(x_labels)
+            change_item = list(range(0,len(x_labels),len(x_labels)//save_x))
+            for i in change_item:
+                if i < len(x_labels):
+                    new_list[i] = x_labels[i]
+        x_labels = new_list
+        plt.plot(x_data, y_data)
 
         plt.xticks(x_data, x_labels, rotation=45)
         plt.xlabel('时间')
@@ -78,10 +91,10 @@ if __name__ == "__main__":
     counter = Count()
     for x in range(50):
         counter.reserve_db(random.uniform(-70, 0))
-        time.sleep(0.1)
+        time.sleep(0.01)
     for x in range(50):
         counter.reserve_db(random.uniform(-70, 0))
-        time.sleep(0.1)
+        time.sleep(0.01)
         # 假设alarm是在特定时间触发
         counter.reserve_alarm()
     counter.plot_graph()
