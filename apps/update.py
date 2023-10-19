@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import requests
 import tkinter as tk
@@ -75,6 +76,11 @@ def download_latest_version(url):
         progress_label.pack()
         progress = 0
         start_time = time.time()
+        if getattr(sys, 'frozen', False):
+            base_path = os.path.dirname(sys.executable)
+        else:
+            base_path = os.path.abspath(".")
+        # 拼接保存路径
         for data in response.iter_content(block_size):
             speed = len(data) / (time.time() - start_time) if time.time() - start_time > 0 else 0
             progress += len(data)
@@ -84,7 +90,7 @@ def download_latest_version(url):
             progress_bar["value"] = progress_percent
             progress_label.config(text=f"下载速度: {speed:.2f} KB/s  进度: {progress_percent:.2f}%")
             progress_bar.update()
-
+        file_name = os.path.join(base_path, file_name)
         os.rename(download_file_name, file_name)
         showinfo("更新成功", "最新版本下载完成。")
         root.destroy()

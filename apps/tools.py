@@ -61,7 +61,7 @@ class Count:
         plt.xlabel('时间')
         plt.ylabel('分贝')
         plt.title('看看今天的统计数据叭')
-        current_time = datetime.datetime.now().strftime("%Y年%m月%d日%H时%M分")
+        current_time = datetime.datetime.now().strftime("%Y-%m_%d-%H-%M")
         if getattr(sys, 'frozen', False):
             base_path = os.path.dirname(sys.executable)
         else:
