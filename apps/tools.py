@@ -33,7 +33,22 @@ class Count:
 
     def get_time(self):
         current_time = datetime.datetime.now()
-        return current_time.strftime("%H:%M")
+        return current_time.strftime("%H:%M:%S")
+
+    def get_weekday(self):
+        weekday_dict = {
+            0: '星期一',
+            1: '星期二',
+            2: '星期三',
+            3: '星期四',
+            4: '星期五',
+            5: '星期六',
+            6: '星期日'
+        }
+    
+        date_object = datetime.date.today()
+        weekday = date_object.weekday()
+        return weekday_dict[weekday]
 
     def calculate_averages(self):
         for key in self.db:
@@ -51,9 +66,7 @@ class Count:
         save_x = 20
         new_list = x_labels
         
-
-
-        fig = plt.figure()
+        fig = plt.figure(figsize=(12, 6))
         fig.canvas.manager.set_window_title('好看的统计信息')
         fig.canvas.manager.window.setWindowIcon(QtGui.QIcon("./res/function.ico"))
 
@@ -73,8 +86,10 @@ class Count:
         plt.xticks(x_data, x_labels, rotation=45)
         plt.xlabel('时间')
         plt.ylabel('分贝')
-        plt.title('看看今天的统计数据叭')
-        current_time = datetime.datetime.now().strftime("%Y-%m_%d-%H-%M")
+        current_date = datetime.datetime.now().strftime("%m月%d日")
+        plt.title(f'看看{current_date}({self.get_weekday()})的统计数据叭')
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+        plt.tight_layout(pad=2.0, w_pad=0.5, h_pad=1.0, rect=(0, 0, 1, 0.95))
         if getattr(sys, 'frozen', False):
             base_path = os.path.dirname(sys.executable)
         else:
