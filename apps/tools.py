@@ -91,8 +91,9 @@ class Count:
         plt.xticks(x_data, x_labels, rotation=45)
         plt.xlabel('时间')
         plt.ylabel('分贝')
-        current_date = datetime.datetime.now().strftime("%m月%d日")
-        plt.title(f'看看{current_date}({self.get_weekday()})的统计数据叭')
+        current_date_month = datetime.datetime.now().strftime("%m")
+        current_date_day = datetime.datetime.now().strftime("%d")
+        plt.title(f'看看{current_date_month}月{current_date_day}日({self.get_weekday()})的统计数据叭')
         current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
         plt.tight_layout(pad=2.0, w_pad=0.5, h_pad=1.0, rect=(0, 0, 1, 0.95))
         if getattr(sys, 'frozen', False):
