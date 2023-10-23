@@ -33,6 +33,11 @@ class Count:
 
     def get_time(self):
         current_time = datetime.datetime.now()
+        current_second = current_time.second
+        if current_second < 30:
+            current_time = current_time.replace(second=0)
+        else:
+            current_time = current_time.replace(second=30)
         return current_time.strftime("%H:%M:%S")
 
     def get_weekday(self):
@@ -63,7 +68,7 @@ class Count:
         y_data = list(data.values())
         x_labels = list(data.keys())
 
-        save_x = 20
+        save_x = 30
         new_list = x_labels
         
         fig = plt.figure(figsize=(12, 6))
@@ -104,7 +109,7 @@ class Count:
 if __name__ == "__main__":
     import time,random
     counter = Count()
-    for x in range(50):
+    for x in range(3600):
         counter.reserve_db(random.uniform(-70, 0))
         time.sleep(0.01)
     for x in range(50):
