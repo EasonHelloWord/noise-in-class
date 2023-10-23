@@ -20,14 +20,14 @@ class Count:
         if not os.path.exists(filename):  # 如果目录不存在则创建
             os.mkdir(filename)
     def reserve_db(self, db):
+        if datetime.datetime.now().strftime("%S") == "0":
+            self.calculate_averages()
+            self.averages = {}
         current_time = self.get_time()
         if current_time not in self.db:
             self.db[current_time] = [db]
         else:
             self.db[current_time].append(db)
-        if datetime.datetime.now().strftime("%S") == "0":
-            self.calculate_averages()
-            self.averages = {}
     def reserve_alarm(self):
         self.alarm.append(self.get_time())
 
