@@ -1,12 +1,12 @@
 import os
 import sys
 from threading import Thread
-from apps import update,db_control
+from apps import update, db_control
+
 if __name__ == "__main__":
-    current_version="V2.1.2"
+    current_version = "V2.1.2"
+
     # 资源文件目录访问
-
-
     def source_path(relative_path):
         # 是否Bundle Resource
         if getattr(sys, 'frozen', False):
@@ -19,5 +19,5 @@ if __name__ == "__main__":
     # 修改当前工作目录，使得资源文件可以被正确访问
     cd = source_path('')
     os.chdir(cd)
-    Thread(target=update.check_update,args=(current_version,)).start()
+    Thread(target=update.check_update, args=(current_version,)).start()
     db_control.MicMonitor(current_version).run()

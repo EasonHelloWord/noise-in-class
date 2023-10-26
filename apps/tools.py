@@ -1,6 +1,7 @@
 import datetime
 import os
 import sys
+
 import matplotlib.pyplot as plt
 from PyQt5 import QtGui
 
@@ -19,6 +20,7 @@ class Count:
         filename = os.path.join(base_path, "reports")
         if not os.path.exists(filename):  # 如果目录不存在则创建
             os.mkdir(filename)
+
     def reserve_db(self, db):
         if datetime.datetime.now().strftime("%S") == "0":
             self.calculate_averages()
@@ -28,10 +30,12 @@ class Count:
             self.db[current_time] = [db]
         else:
             self.db[current_time].append(db)
+
     def reserve_alarm(self):
         self.alarm.append(self.get_time())
 
-    def get_time(self):
+    @staticmethod
+    def get_time():
         current_time = datetime.datetime.now()
         current_second = current_time.second
         if current_second < 30:
@@ -40,7 +44,8 @@ class Count:
             current_time = current_time.replace(second=30)
         return current_time.strftime("%H:%M:%S")
 
-    def get_weekday(self):
+    @staticmethod
+    def get_weekday():
         weekday_dict = {
             0: '星期一',
             1: '星期二',
@@ -50,7 +55,7 @@ class Count:
             5: '星期六',
             6: '星期日'
         }
-    
+
         date_object = datetime.date.today()
         weekday = date_object.weekday()
         return weekday_dict[weekday]
@@ -70,18 +75,18 @@ class Count:
 
         save_x = 30
         new_list = x_labels
-        
+
         fig = plt.figure(figsize=(12, 6))
         fig.canvas.manager.set_window_title('好看的统计信息')
         fig.canvas.manager.window.setWindowIcon(QtGui.QIcon("./res/function.ico"))
 
-        for time in self.alarm:
-            if time in x_labels:
-                index = x_labels.index(time)
-                plt.scatter(index, data[time], color='red')  # 标记红色
+        for alarm_time in self.alarm:
+            if alarm_time in x_labels:
+                index = x_labels.index(alarm_time)
+                plt.scatter(index, data[alarm_time], color='red')  # 标记红色
         if len(x_labels) > save_x:
             new_list = [''] * len(x_labels)
-            change_item = list(range(0,len(x_labels),len(x_labels)//save_x))
+            change_item = list(range(0, len(x_labels), len(x_labels) // save_x))
             for i in change_item:
                 if i < len(x_labels):
                     new_list[i] = x_labels[i]
@@ -108,7 +113,9 @@ class Count:
 
 
 if __name__ == "__main__":
-    import time,random
+    import time
+    import random
+
     counter = Count()
     for x in range(3600):
         counter.reserve_db(random.uniform(-70, 0))
