@@ -8,7 +8,7 @@ from tkinter import scrolledtext
 from tkinter.messagebox import showinfo
 
 
-def check_for_updates(current_version,url):
+def check_for_updates(current_version, url):
     try:
         response = requests.get(url, timeout=20)
         if response.status_code == 200:
@@ -21,10 +21,10 @@ def check_for_updates(current_version,url):
                 root.title("检测到更新！！！")
                 root.geometry("400x280")
 
-                label = tk.Label(root, text=f"最新版本为 {latest_version}，是否下载？", font=(14))
+                label = tk.Label(root, text=f"最新版本为 {latest_version}，是否下载？", font=14)
                 label.pack(pady=10)
-                tk.Label(root, text="更新日志", font=(12)).pack(pady=5)
-                scr = scrolledtext.ScrolledText(root, width=50, height=7, wrap=tk.WORD, font=(12))
+                tk.Label(root, text="更新日志", font=12).pack(pady=5)
+                scr = scrolledtext.ScrolledText(root, width=50, height=7, wrap=tk.WORD, font=12)
                 scr.insert(tk.INSERT, response_body)
                 scr.pack(pady=10)
                 scr.tag_configure("center", justify='center')
@@ -39,10 +39,10 @@ def check_for_updates(current_version,url):
                 def on_no():
                     root.destroy()
 
-                yes_button = tk.Button(frame, text='是', width=10, font=(12), command=on_yes)
+                yes_button = tk.Button(frame, text='是', width=10, font=12, command=on_yes)
                 yes_button.pack(side=tk.LEFT, padx=10)
 
-                no_button = tk.Button(frame, text='否', width=10, font=(12), command=on_no)
+                no_button = tk.Button(frame, text='否', width=10, font=12, command=on_no)
                 no_button.pack(side=tk.RIGHT, padx=10)
 
                 root.mainloop()
@@ -101,10 +101,11 @@ def download_latest_version(url):
 
 def check_update(current_version):
     current_version = current_version
-    update_info = check_for_updates(current_version,"https://gitee.com/api/v5/repos/EasonJan/noise-in-class/releases/latest")
-    if update_info == False:
-        update_info = check_for_updates(current_version,"https://api.github.com/repos/EasonHelloWord/noise-in-class/releases/latest")
-
+    update_info = check_for_updates(current_version,
+                                    "https://gitee.com/api/v5/repos/EasonJan/noise-in-class/releases/latest")
+    if not update_info:
+        check_for_updates(current_version,
+                          "https://api.github.com/repos/EasonHelloWord/noise-in-class/releases/latest")
 
 
 if __name__ == "__main__":

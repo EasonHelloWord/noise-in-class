@@ -7,8 +7,12 @@ import sys
 import winsound
 from . import tools
 
+
 class MicMonitor:
-    def __init__(self,ver):
+    def __init__(self, ver):
+        self.root = tk.Tk()
+        self.db_label = tk.Label(self.root, text="分贝：0", font=("", 12))
+        self.warning_label = None
         self.count = tools.Count()
         self.db_threshold = -25
         self.alarm_enabled = False
@@ -17,7 +21,6 @@ class MicMonitor:
         self.warning_start = 0
         self.current_indata = None
         self.ver = ver
-        self.root = tk.Tk()
         self.root.title("你有点大声awa")
         self.root.attributes('-topmost', True)
         self.root.geometry("180x165")
@@ -30,12 +33,11 @@ class MicMonitor:
         db_threshold_label.pack()
 
         db_threshold_slider = tk.Scale(self.root, from_=-90, to=0, orient="horizontal",
-                                    command=lambda x: self.set_threshold(int(x)), length=300)
+                                       command=lambda x: self.set_threshold(int(x)), length=300)
         db_threshold_slider.set(self.db_threshold)
         db_threshold_slider.config(font=("", 9))
         db_threshold_slider.pack()
 
-        self.db_label = tk.Label(self.root, text="分贝：0", font=("", 12))
         self.db_label.pack()
 
         me_label = tk.Label(self.root, text=f"制作：Eason_J  {self.ver}", font=("", 9))
@@ -49,12 +51,12 @@ class MicMonitor:
         alarm_checkbox.pack()
 
         self.warning_label = tk.Label(self.root, text="你有点大声", bg="red",
-                                    fg="white", font=("", 15), width=20, height=2)
+                                      fg="white", font=("", 15), width=20, height=2)
         self.warning_label.pack(side="bottom", fill="x")
         self.warning_label.pack_forget()
 
     def calculate_db(self, indata):
-        rms = np.sqrt(np.mean(indata**2))
+        rms = np.sqrt(np.mean(indata ** 2))
         db = 20 * np.log10(rms)
         self.count.reserve_db(db)
         return db
@@ -71,7 +73,7 @@ class MicMonitor:
             self.start_warning(self.warning_label)
             self.warning_shown = True
             if self.alarm_enabled:
-                if self.warning_shown and time.time()-self.warning_start > 2:
+                if self.warning_shown and time.time() - self.warning_start > 2:
                     Thread(target=self.play_alarm).start()
         elif db < self.db_threshold:
             self.warning_shown = False
@@ -89,16 +91,17 @@ class MicMonitor:
         self.warning_shown = True
 
     def play_alarm(self):
-        self.warning_start = time.time()+2
+        self.warning_start = time.time() + 2
         yes = 0
         no = 0
         for x in range(30):
             db = self.calculate_db(self.current_indata)
             if db >= self.db_threshold:
                 yes += 1
-            else:no += 1
+            else:
+                no += 1
             time.sleep(0.1)
-        if self.alarm_enabled and yes/(yes+no) >= 0.3:
+        if self.alarm_enabled and yes / (yes + no) >= 0.3:
             self.count.reserve_alarm()
             winsound.PlaySound("./res/mic/保持安静.wav", winsound.SND_FILENAME)
 
@@ -113,7 +116,7 @@ class MicMonitor:
             self.root.mainloop()
         self.count.plot_graph()
 
+
 if __name__ == "__main__":
     monitor = MicMonitor('V1.2.4')
     monitor.run()
-    monitor.count()
