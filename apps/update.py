@@ -46,7 +46,7 @@ def check_for_updates(current_version, url):
                 no_button.pack(side=tk.RIGHT, padx=10)
 
                 root.mainloop()
-
+                return 1
             else:
                 print("当前已是最新版本。")
                 return True
