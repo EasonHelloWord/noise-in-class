@@ -79,11 +79,12 @@ class Count:
         fig = plt.figure(figsize=(12, 6))
         fig.canvas.manager.set_window_title('好看的统计信息')
         fig.canvas.manager.window.setWindowIcon(QtGui.QIcon("./res/function.ico"))
-
+        # 初始化 alarm_pot
+        alarm_pot = None
         for alarm_time in self.alarm:
             if alarm_time in x_labels:
                 index = x_labels.index(alarm_time)
-                plt.scatter(index, data[alarm_time], color='red')  # 标记红色
+                alarm_pot = plt.scatter(index, data[alarm_time], color='red')  # 标记红色
         if len(x_labels) > save_x:
             new_list = [''] * len(x_labels)
             change_item = list(range(0, len(x_labels), len(x_labels) // save_x))
@@ -91,8 +92,13 @@ class Count:
                 if i < len(x_labels):
                     new_list[i] = x_labels[i]
         x_labels = new_list
-        plt.plot(x_data, y_data)
-
+        db_line, = plt.plot(x_data, y_data, color='blue')  # 分贝图
+        average_line, = plt.plot(x_data, [sum(y_data) / len(y_data) for _ in range(len(x_data))], color='orange')  # 平均值
+        if alarm_pot:
+            plt.legend(handles=[db_line, average_line, alarm_pot], labels=["响度值", "平均值", "报警时间点"],
+                       loc="lower right")
+        else:
+            plt.legend(handles=[db_line, average_line], labels=["响度值", "平均值"], loc="lower right")
         plt.xticks(x_data, x_labels, rotation=45)
         plt.xlabel('时间')
         plt.ylabel('分贝')

@@ -4,7 +4,7 @@ from threading import Thread
 from apps import update, db_control
 
 if __name__ == "__main__":
-    current_version = "V2.1.2"
+    current_version = "V2.1.3"
 
     # 资源文件目录访问
     def source_path(relative_path):
